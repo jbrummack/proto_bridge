@@ -1,0 +1,4 @@
+module ProtoBridge {
+  header "libproto_bridge.h"
+  export *
+}

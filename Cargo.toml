@@ -6,7 +6,7 @@ edition = "2021"
 [lib]
 name = "proto_bridge"
 path = "src/lib.rs"
-crate-type = ["staticlib"]
+crate-type = ["staticlib", "cdylib"]
 
 [[bin]]
 name = "bin"
