@@ -1,0 +1,18 @@
+[package]
+name = "proto_bridge"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "proto_bridge"
+path = "src/lib.rs"
+crate-type = ["staticlib"]
+
+[[bin]]
+name = "bin"
+path = "src/bin.rs"
+
+[dependencies]
+prost = "0.13"
+# Only necessary if using Protobuf well-known types:
+prost-types = "0.13"
