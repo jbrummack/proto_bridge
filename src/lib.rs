@@ -42,9 +42,15 @@ pub extern "C" fn process_proto(
     callback(response_bytes.as_ptr(), response_bytes.len(), user_data);
 }
 
-fn process_request(_request: ToRust) -> FromRust {
-    let _ = dbg!(_request);
+fn process_request(request: ToRust) -> FromRust {
     // Implement your processing logic here
     // This is just a placeholder
-    FromRust::default()
+    let req = dbg!(request);
+    let mut retval = FromRust::default();
+
+    if let Some(add_req) = req.request_add {
+        retval.add_result = add_req.v1 + add_req.v2;
+    }
+
+    retval
 }

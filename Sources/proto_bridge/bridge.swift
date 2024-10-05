@@ -1,6 +1,7 @@
 import Foundation
 //import ProtoBridge
 import ProtoBridge
+import SwiftProtobuf
 
 func receiveMsg(_ process: @escaping (Ffi_Messaging_FromRust) -> Void) -> (
     (UnsafePointer<UInt8>?, Int, UnsafeMutableRawPointer?) -> Void
@@ -10,7 +11,7 @@ func receiveMsg(_ process: @escaping (Ffi_Messaging_FromRust) -> Void) -> (
         guard let data = data else { return }
         let responseData = Data(bytes: data, count: len)
         do {
-            let responseProto = try Ffi_Messaging_FromRust(serializedData: responseData)
+            let responseProto = try Ffi_Messaging_FromRust(serializedBytes: responseData)
             // Process the response
             process(responseProto)
             print("Received response: \(responseProto)")
@@ -21,11 +22,12 @@ func receiveMsg(_ process: @escaping (Ffi_Messaging_FromRust) -> Void) -> (
     return retfunc
 }
 // Callback function
-func protoCallback(data: UnsafePointer<UInt8>?, len: Int, userData: UnsafeMutableRawPointer?) {
+public func protoCallback(data: UnsafePointer<UInt8>?, len: Int, userData: UnsafeMutableRawPointer?)
+{
     guard let data = data else { return }
     let responseData = Data(bytes: data, count: len)
     do {
-        let responseProto = try Ffi_Messaging_FromRust(serializedData: responseData)
+        let responseProto = try Ffi_Messaging_FromRust(serializedBytes: responseData)
         // Process the response
         print("Received response: \(responseProto)")
     } catch {
@@ -39,13 +41,15 @@ enum InteropError: Error {
 public typealias FromRust = Ffi_Messaging_FromRust
 public typealias ToRust = Ffi_Messaging_ToRust
 // Function to send request
-public func sendRequest() throws {
-    let request = Ffi_Messaging_ToRust.with { message in
+public func sendRequest(
+    _ cf: callback_fn = protoCallback,
+    request: ToRust = ToRust.with { message in
         message.requestAdd = Ffi_Messaging_add.with {
             $0.v1 = 1
             $0.v2 = 1
         }
-    }  // * Create and populate your request
+    }
+) throws {  // * Create and populate your request
     // *
 
     do {
@@ -55,7 +59,7 @@ public func sendRequest() throws {
             process_proto(
                 rawPtr.assumingMemoryBound(to: UInt8.self),
                 requestData.count,
-                protoCallback,
+                cf,
                 nil)
         }
     } catch {
