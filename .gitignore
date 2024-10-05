@@ -7,3 +7,4 @@ Package.resolved
 /proto_bridge.xcframework
 /Sources/**/src/
 /libs/**
+/.swiftpm
