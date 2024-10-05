@@ -3,8 +3,11 @@ import PackageDescription
 
 let package = Package(
     name: "proto_bridge",
+    platforms: [
+        .macOS(.v10_14), .iOS(.v13), .tvOS(.v13),
+    ],
     products: [
-        .library(name: "proto_bridge", targets: ["proto_bridge"])
+        .library(name: "proto_bridge", targets: ["proto_bridge", "proto_bridge_rust"])
     ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-protobuf.git", from: "1.27.0")

@@ -1,4 +1,4 @@
-# protoc --swift_out=./proto_bridge messaging.proto
+# protoc --swift_out=./Sources/proto_bridge ./messaging.proto
 libname = libproto_bridge
 lib = $(libname).a
 #crate = mobile_integration_test
@@ -9,7 +9,9 @@ NDK_HOME=$(ANDROID_HOME)/ndk/
 
 #modulemap:
 
-
+proto:
+	@protoc --swift_out=./Sources/proto_bridge ./src/messaging.proto
+	@protoc -I=$(SRC_DIR) --java_out=$(DST_DIR) --kotlin_out=$(DST_DIR) messaging.proto
 
 show_ndk:
 	@cd $(NDK_HOME) && ls
@@ -76,7 +78,7 @@ xcframework:
 		-output $(framework_name).xcframework
 
 DST_DIR = ./android_messaging
-SRC_DIR = ./
+SRC_DIR = ./src
 android:
-	@cargo ndk -t armeabi-v7a -t arm64-v8a -o ./jniLibs build --release
 	@protoc -I=$(SRC_DIR) --java_out=$(DST_DIR) --kotlin_out=$(DST_DIR) messaging.proto
+	@cargo ndk -t armeabi-v7a -t arm64-v8a -o ./jniLibs build --release

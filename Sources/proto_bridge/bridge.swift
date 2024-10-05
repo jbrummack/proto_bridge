@@ -1,5 +1,7 @@
 import Foundation
 
+//import ProtoBridge
+
 // Callback function
 func protoCallback(data: UnsafePointer<UInt8>?, len: Int, userData: UnsafeMutableRawPointer?) {
     guard let data = data else { return }

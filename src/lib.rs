@@ -1,8 +1,14 @@
+use prost::Message;
 use std::os::raw::c_void;
 use std::slice;
 
-// Assuming you have a crate for your Protocol Buffer definitions
-use your_protobuf_crate::{RequestProto, ResponseProto};
+pub mod ffi {
+    pub mod messaging {
+        include!(concat!(env!("OUT_DIR"), "/ffi.messaging.rs"));
+    }
+}
+
+use ffi::messaging::{FromRust, ToRust};
 
 // Type for the callback function
 type CallbackFn = extern "C" fn(*const u8, usize, *mut c_void);
@@ -18,7 +24,8 @@ pub extern "C" fn process_proto(
     let input_slice = unsafe { slice::from_raw_parts(data, len) };
 
     // Deserialize the input Protocol Buffer
-    let request = match RequestProto::parse_from_bytes(input_slice) {
+    let dec = ToRust::decode(input_slice);
+    let request = match dec {
         Ok(req) => req,
         Err(_) => {
             eprintln!("Failed to parse input Protocol Buffer");
@@ -26,24 +33,17 @@ pub extern "C" fn process_proto(
         }
     };
 
-    // Process the request (replace this with your actual logic)
-    let response = process_request(request);
+    // Process the request
+    let response: FromRust = process_request(request);
 
-    // Serialize the response
-    let response_bytes = match response.write_to_bytes() {
-        Ok(bytes) => bytes,
-        Err(_) => {
-            eprintln!("Failed to serialize response Protocol Buffer");
-            return;
-        }
-    };
+    let response_bytes = response.encode_to_vec();
 
     // Call the callback with the serialized response
     callback(response_bytes.as_ptr(), response_bytes.len(), user_data);
 }
 
-fn process_request(request: RequestProto) -> ResponseProto {
+fn process_request(_request: ToRust) -> FromRust {
     // Implement your processing logic here
     // This is just a placeholder
-    ResponseProto::default()
+    FromRust::default()
 }

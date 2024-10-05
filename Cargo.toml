@@ -16,3 +16,6 @@ path = "src/bin.rs"
 prost = "0.13"
 # Only necessary if using Protobuf well-known types:
 prost-types = "0.13"
+
+[build-dependencies]
+prost-build = "0.13.3"
