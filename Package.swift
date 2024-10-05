@@ -13,6 +13,7 @@ let package = Package(
         .target(
             name: "proto_bridge",
             dependencies: [.product(name: "SwiftProtobuf", package: "swift-protobuf")]
-        )
+        ),
+        .binaryTarget(name: "proto_bridge_rust", path: "./proto_bridge.xcframework"),
     ]
 )
