@@ -6,4 +6,4 @@ Package.resolved
 /android_messaging/ffi
 /libs
 /proto_bridge.xcframework
-/Sources/src/
+/Sources/**/src/
