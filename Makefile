@@ -17,6 +17,7 @@ apple:
 	@make macos
 	@make ios
 	@make xcframework
+	@swift build #helps with lsp issues
 
 show_ndk:
 	@cd $(NDK_HOME) && ls
