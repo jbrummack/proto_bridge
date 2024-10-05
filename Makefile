@@ -39,11 +39,11 @@ setup_toolchain_apple:
 	@rustup component add rust-src --toolchain nightly-aarch64-apple-darwin
 
 setup_project:
-	@mkdir include
+	#@mkdir include
 	@mkdir libs
 	#@mkdir .cargo
-	@cd include
-	@echo "module $(framework_name) {\n header \"$(libname).h\"\n export *\n}" > module.modulemap
+	#@cd include
+	#@echo "module $(framework_name) {\n header \"$(libname).h\"\n export *\n}" > module.modulemap
 
 macos:
 	@cargo build --release --lib --target aarch64-apple-darwin

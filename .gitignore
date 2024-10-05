@@ -2,8 +2,8 @@
 /.build
 Package.resolved
 .DS_Store
-/jniLibs
+/jniLibs/**
 /android_messaging/ffi
-/libs
 /proto_bridge.xcframework
 /Sources/**/src/
+/libs/**
