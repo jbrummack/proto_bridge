@@ -20,89 +20,89 @@ fileprivate struct _GeneratedWithProtocGenSwiftVersion: SwiftProtobuf.ProtobufAP
   typealias Version = _2
 }
 
-struct Ffi_Messaging_void: Sendable {
+public struct Ffi_Messaging_void: Sendable {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
 
-  var unknownFields = SwiftProtobuf.UnknownStorage()
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
 
-  init() {}
+  public init() {}
 }
 
-struct Ffi_Messaging_VectorEntry: Sendable {
+public struct Ffi_Messaging_VectorEntry: Sendable {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
 
-  var id: UInt64 = 0
+  public var id: UInt64 = 0
 
-  var vector: [Float] = []
+  public var vector: [Float] = []
 
-  var payload: String = String()
+  public var payload: String = String()
 
-  var unknownFields = SwiftProtobuf.UnknownStorage()
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
 
-  init() {}
+  public init() {}
 }
 
-struct Ffi_Messaging_ToRust: Sendable {
+public struct Ffi_Messaging_ToRust: Sendable {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
 
-  var sayHello: Ffi_Messaging_void {
+  public var sayHello: Ffi_Messaging_void {
     get {return _sayHello ?? Ffi_Messaging_void()}
     set {_sayHello = newValue}
   }
   /// Returns true if `sayHello` has been explicitly set.
-  var hasSayHello: Bool {return self._sayHello != nil}
+  public var hasSayHello: Bool {return self._sayHello != nil}
   /// Clears the value of `sayHello`. Subsequent reads from it will return its default value.
-  mutating func clearSayHello() {self._sayHello = nil}
+  public mutating func clearSayHello() {self._sayHello = nil}
 
-  var requestAdd: Ffi_Messaging_add {
+  public var requestAdd: Ffi_Messaging_add {
     get {return _requestAdd ?? Ffi_Messaging_add()}
     set {_requestAdd = newValue}
   }
   /// Returns true if `requestAdd` has been explicitly set.
-  var hasRequestAdd: Bool {return self._requestAdd != nil}
+  public var hasRequestAdd: Bool {return self._requestAdd != nil}
   /// Clears the value of `requestAdd`. Subsequent reads from it will return its default value.
-  mutating func clearRequestAdd() {self._requestAdd = nil}
+  public mutating func clearRequestAdd() {self._requestAdd = nil}
 
-  var unknownFields = SwiftProtobuf.UnknownStorage()
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
 
-  init() {}
+  public init() {}
 
   fileprivate var _sayHello: Ffi_Messaging_void? = nil
   fileprivate var _requestAdd: Ffi_Messaging_add? = nil
 }
 
-struct Ffi_Messaging_add: Sendable {
+public struct Ffi_Messaging_add: Sendable {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
 
-  var v1: Int32 = 0
+  public var v1: Int32 = 0
 
-  var v2: Int32 = 0
+  public var v2: Int32 = 0
 
-  var unknownFields = SwiftProtobuf.UnknownStorage()
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
 
-  init() {}
+  public init() {}
 }
 
-struct Ffi_Messaging_FromRust: Sendable {
+public struct Ffi_Messaging_FromRust: Sendable {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
 
-  var sayingHello: String = String()
+  public var sayingHello: String = String()
 
-  var addResult: Int32 = 0
+  public var addResult: Int32 = 0
 
-  var unknownFields = SwiftProtobuf.UnknownStorage()
+  public var unknownFields = SwiftProtobuf.UnknownStorage()
 
-  init() {}
+  public init() {}
 }
 
 // MARK: - Code below here is support for the SwiftProtobuf runtime.
@@ -110,33 +110,33 @@ struct Ffi_Messaging_FromRust: Sendable {
 fileprivate let _protobuf_package = "ffi.messaging"
 
 extension Ffi_Messaging_void: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = _protobuf_package + ".void"
-  static let _protobuf_nameMap = SwiftProtobuf._NameMap()
+  public static let protoMessageName: String = _protobuf_package + ".void"
+  public static let _protobuf_nameMap = SwiftProtobuf._NameMap()
 
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     // Load everything into unknown fields
     while try decoder.nextFieldNumber() != nil {}
   }
 
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: Ffi_Messaging_void, rhs: Ffi_Messaging_void) -> Bool {
+  public static func ==(lhs: Ffi_Messaging_void, rhs: Ffi_Messaging_void) -> Bool {
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }
 }
 
 extension Ffi_Messaging_VectorEntry: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = _protobuf_package + ".VectorEntry"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+  public static let protoMessageName: String = _protobuf_package + ".VectorEntry"
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "id"),
     2: .same(proto: "vector"),
     3: .same(proto: "payload"),
   ]
 
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
       // The use of inline closures is to circumvent an issue where the compiler
       // allocates stack space for every case branch when no optimizations are
@@ -150,7 +150,7 @@ extension Ffi_Messaging_VectorEntry: SwiftProtobuf.Message, SwiftProtobuf._Messa
     }
   }
 
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
     if self.id != 0 {
       try visitor.visitSingularUInt64Field(value: self.id, fieldNumber: 1)
     }
@@ -163,7 +163,7 @@ extension Ffi_Messaging_VectorEntry: SwiftProtobuf.Message, SwiftProtobuf._Messa
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: Ffi_Messaging_VectorEntry, rhs: Ffi_Messaging_VectorEntry) -> Bool {
+  public static func ==(lhs: Ffi_Messaging_VectorEntry, rhs: Ffi_Messaging_VectorEntry) -> Bool {
     if lhs.id != rhs.id {return false}
     if lhs.vector != rhs.vector {return false}
     if lhs.payload != rhs.payload {return false}
@@ -173,13 +173,13 @@ extension Ffi_Messaging_VectorEntry: SwiftProtobuf.Message, SwiftProtobuf._Messa
 }
 
 extension Ffi_Messaging_ToRust: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = _protobuf_package + ".ToRust"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+  public static let protoMessageName: String = _protobuf_package + ".ToRust"
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .standard(proto: "say_hello"),
     2: .standard(proto: "request_add"),
   ]
 
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
       // The use of inline closures is to circumvent an issue where the compiler
       // allocates stack space for every case branch when no optimizations are
@@ -192,7 +192,7 @@ extension Ffi_Messaging_ToRust: SwiftProtobuf.Message, SwiftProtobuf._MessageImp
     }
   }
 
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
     // The use of inline closures is to circumvent an issue where the compiler
     // allocates stack space for every if/case branch local when no optimizations
     // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
@@ -206,7 +206,7 @@ extension Ffi_Messaging_ToRust: SwiftProtobuf.Message, SwiftProtobuf._MessageImp
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: Ffi_Messaging_ToRust, rhs: Ffi_Messaging_ToRust) -> Bool {
+  public static func ==(lhs: Ffi_Messaging_ToRust, rhs: Ffi_Messaging_ToRust) -> Bool {
     if lhs._sayHello != rhs._sayHello {return false}
     if lhs._requestAdd != rhs._requestAdd {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
@@ -215,13 +215,13 @@ extension Ffi_Messaging_ToRust: SwiftProtobuf.Message, SwiftProtobuf._MessageImp
 }
 
 extension Ffi_Messaging_add: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = _protobuf_package + ".add"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+  public static let protoMessageName: String = _protobuf_package + ".add"
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "v1"),
     2: .same(proto: "v2"),
   ]
 
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
       // The use of inline closures is to circumvent an issue where the compiler
       // allocates stack space for every case branch when no optimizations are
@@ -234,7 +234,7 @@ extension Ffi_Messaging_add: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
     }
   }
 
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
     if self.v1 != 0 {
       try visitor.visitSingularInt32Field(value: self.v1, fieldNumber: 1)
     }
@@ -244,7 +244,7 @@ extension Ffi_Messaging_add: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: Ffi_Messaging_add, rhs: Ffi_Messaging_add) -> Bool {
+  public static func ==(lhs: Ffi_Messaging_add, rhs: Ffi_Messaging_add) -> Bool {
     if lhs.v1 != rhs.v1 {return false}
     if lhs.v2 != rhs.v2 {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
@@ -253,13 +253,13 @@ extension Ffi_Messaging_add: SwiftProtobuf.Message, SwiftProtobuf._MessageImplem
 }
 
 extension Ffi_Messaging_FromRust: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = _protobuf_package + ".FromRust"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+  public static let protoMessageName: String = _protobuf_package + ".FromRust"
+  public static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .standard(proto: "saying_hello"),
     2: .standard(proto: "add_result"),
   ]
 
-  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+  public mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
       // The use of inline closures is to circumvent an issue where the compiler
       // allocates stack space for every case branch when no optimizations are
@@ -272,7 +272,7 @@ extension Ffi_Messaging_FromRust: SwiftProtobuf.Message, SwiftProtobuf._MessageI
     }
   }
 
-  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+  public func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
     if !self.sayingHello.isEmpty {
       try visitor.visitSingularStringField(value: self.sayingHello, fieldNumber: 1)
     }
@@ -282,7 +282,7 @@ extension Ffi_Messaging_FromRust: SwiftProtobuf.Message, SwiftProtobuf._MessageI
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: Ffi_Messaging_FromRust, rhs: Ffi_Messaging_FromRust) -> Bool {
+  public static func ==(lhs: Ffi_Messaging_FromRust, rhs: Ffi_Messaging_FromRust) -> Bool {
     if lhs.sayingHello != rhs.sayingHello {return false}
     if lhs.addResult != rhs.addResult {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}

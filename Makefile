@@ -8,10 +8,15 @@ ANDROID_HOME = /Users/$$USER/Library/Android/sdk
 NDK_HOME=$(ANDROID_HOME)/ndk/
 
 #modulemap:
-
+#
 proto:
-	@protoc --swift_out=./Sources/proto_bridge ./src/messaging.proto
 	@protoc -I=$(SRC_DIR) --java_out=$(DST_DIR) --kotlin_out=$(DST_DIR) messaging.proto
+
+apple:
+	@protoc --swift_out=./Sources/proto_bridge --swift_opt=Visibility=Public ./src/messaging.proto
+	@make macos
+	@make ios
+	@make xcframework
 
 show_ndk:
 	@cd $(NDK_HOME) && ls
