@@ -9,7 +9,7 @@ NDK_HOME=$(ANDROID_HOME)/ndk/
 
 #modulemap:
 #
-proto:
+kotlin:
 	@protoc -I=$(SRC_DIR) --java_out=$(DST_DIR) --kotlin_out=$(DST_DIR) messaging.proto
 
 apple:
@@ -46,7 +46,6 @@ setup_project:
 	@echo "module $(framework_name) {\n header \"$(libname).h\"\n export *\n}" > module.modulemap
 
 macos:
-	#@cbindgen --config cbindgen.toml --crate $(crate) --output include/$(libname).h
 	@cargo build --release --lib --target aarch64-apple-darwin
 	@cargo build --release --lib --target x86_64-apple-darwin
 	@cargo +nightly build -Z build-std --release --lib --target aarch64-apple-ios-macabi
@@ -60,7 +59,6 @@ macos:
             target/aarch64-apple-ios-macabi/release/$(lib) \
             target/x86_64-apple-ios-macabi/release/$(lib)
 ios:
-	#@cbindgen --config cbindgen.toml --crate $(crate) --output include/$(libname).h
 	@cargo build --release --lib --target aarch64-apple-ios
 	@cargo build --release --lib --target aarch64-apple-ios-sim
 	@cargo build --release --lib --target x86_64-apple-ios
