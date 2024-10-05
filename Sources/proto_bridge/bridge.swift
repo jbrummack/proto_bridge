@@ -1,6 +1,6 @@
 import Foundation
-
 //import ProtoBridge
+import ProtoBridge
 
 // Callback function
 func protoCallback(data: UnsafePointer<UInt8>?, len: Int, userData: UnsafeMutableRawPointer?) {
@@ -17,7 +17,14 @@ func protoCallback(data: UnsafePointer<UInt8>?, len: Int, userData: UnsafeMutabl
 
 // Function to send request
 func sendRequest() {
-    let request = Ffi_Messaging_ToRust()  // Create and populate your request
+    let request = Ffi_Messaging_ToRust.with { message in
+        message.requestAdd = Ffi_Messaging_add.with {
+            $0.v1 = 1
+            $0.v2 = 1
+        }
+    }  // * Create and populate your request
+    // *
+
     do {
         let requestData = try request.serializedData()
         requestData.withUnsafeBytes { (bufferPointer: UnsafeRawBufferPointer) in

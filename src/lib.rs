@@ -43,6 +43,7 @@ pub extern "C" fn process_proto(
 }
 
 fn process_request(_request: ToRust) -> FromRust {
+    let _ = dbg!(_request);
     // Implement your processing logic here
     // This is just a placeholder
     FromRust::default()
