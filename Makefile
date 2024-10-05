@@ -1,8 +1,8 @@
 # protoc --swift_out=./proto_bridge messaging.proto
-libname = librustcore
+libname = libproto_bridge
 lib = $(libname).a
-crate = mobile_integration_test
-framework_name = RustCore
+#crate = mobile_integration_test
+framework_name = proto_bridge
 
 ANDROID_HOME = /Users/$$USER/Library/Android/sdk
 NDK_HOME=$(ANDROID_HOME)/ndk/
@@ -20,6 +20,7 @@ setup_toolchain_android:
 	@rustup target add i686-linux-android
 	@rustup target add x86_64-linux-android
 	@cargo install cargo-ndk
+	@mkdir android_messaging
 
 setup_toolchain_apple:
 	@brew install swift-protobuf
@@ -32,12 +33,12 @@ setup_toolchain_apple:
 setup_project:
 	@mkdir include
 	@mkdir libs
-	@mkdir .cargo
+	#@mkdir .cargo
 	@cd include
 	@echo "module $(framework_name) {\n header \"$(libname).h\"\n export *\n}" > module.modulemap
 
 macos:
-	@cbindgen --config cbindgen.toml --crate $(crate) --output include/$(libname).h
+	#@cbindgen --config cbindgen.toml --crate $(crate) --output include/$(libname).h
 	@cargo build --release --lib --target aarch64-apple-darwin
 	@cargo build --release --lib --target x86_64-apple-darwin
 	@cargo +nightly build -Z build-std --release --lib --target aarch64-apple-ios-macabi
@@ -51,7 +52,7 @@ macos:
             target/aarch64-apple-ios-macabi/release/$(lib) \
             target/x86_64-apple-ios-macabi/release/$(lib)
 ios:
-	@cbindgen --config cbindgen.toml --crate $(crate) --output include/$(libname).h
+	#@cbindgen --config cbindgen.toml --crate $(crate) --output include/$(libname).h
 	@cargo build --release --lib --target aarch64-apple-ios
 	@cargo build --release --lib --target aarch64-apple-ios-sim
 	@cargo build --release --lib --target x86_64-apple-ios
@@ -61,7 +62,7 @@ ios:
 	@lipo -create -output libs/$(libname)-ios-sim.a target/aarch64-apple-ios-sim/release/$(lib) target/x86_64-apple-ios/release/$(lib)
 
 
-create_framework:
+xcframework:
 	@$(RM) -rf $(framework_name).xcframework
 	@xcodebuild -create-xcframework \
 	   -library libs/$(libname)-macos.a \
@@ -74,6 +75,8 @@ create_framework:
 		-headers ./include/ \
 		-output $(framework_name).xcframework
 
-
+DST_DIR = ./android_messaging
+SRC_DIR = ./
 android:
 	@cargo ndk -t armeabi-v7a -t arm64-v8a -o ./jniLibs build --release
+	@protoc -I=$(SRC_DIR) --java_out=$(DST_DIR) --kotlin_out=$(DST_DIR) messaging.proto

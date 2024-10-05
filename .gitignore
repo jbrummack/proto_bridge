@@ -3,3 +3,6 @@
 Package.resolved
 .DS_Store
 /jniLibs
+/android_messaging/ffi
+/libs
+/proto_bridge.xcframework
