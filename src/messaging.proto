@@ -25,3 +25,12 @@ message FromRust {
     string saying_hello = 1;
     int32 add_result = 2;
 }
+
+message Greeting {
+    string saying_hello = 1;
+}
+
+message FullName {
+    string name = 1;
+    string surname = 2;
+}

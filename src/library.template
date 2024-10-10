@@ -1,0 +1,11 @@
+use prost::Message;
+use std::os::raw::c_void;
+use std::slice;
+
+pub mod ffi {
+    pub mod messaging {
+        include!(concat!(env!("OUT_DIR"), "/ffi.messaging.rs"));
+    }
+}
+
+use ffi::messaging::{FromRust, ToRust};

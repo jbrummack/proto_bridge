@@ -1,0 +1,5 @@
+class HelloWorld {
+    greet (FullName) -> (Greeting);
+    add (i32, i32) -> (i64);
+    async_greet (FullName) async -> (Greeting);
+}
