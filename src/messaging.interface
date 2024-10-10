@@ -1,5 +1,8 @@
 class HelloWorld {
     greet (FullName) -> (Greeting);
+    greet_in_2sec (FullName) async -> (Greeting);
+}
+
+class Math {
     add (i32, i32) -> (i64);
-    async_greet (FullName) async -> (Greeting);
 }
