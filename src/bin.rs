@@ -1,4 +1,4 @@
-use std::{collections::HashMap, hash::Hash};
+use std::{collections::HashMap, default, hash::Hash};
 
 fn main() {
     let interface = include_str!("messaging.interface");
@@ -77,14 +77,15 @@ impl Function {
         /**/
     }
 }
-
-/*struct TokenPos {
+#[derive(Debug, Default, Clone, PartialEq)]
+struct TokenPos {
     line_number: usize,
     position: usize,
-}*/
+}
 
-#[derive(Debug, Clone, PartialEq, Hash, Eq)]
+#[derive(Debug, Clone, PartialEq, Hash, Eq, Default)]
 enum Token {
+    #[default]
     Whitespace,
     Class,
     Message,
@@ -219,9 +220,9 @@ impl InterfaceBuilder {
                 (Sm::State0, Tk::Class) => {
                     if !self.current_i_class.is_empty() {
                         let move_out = self.current_i_class.clone();
-                        println!("{:?}", move_out);
+                        //println!("{:?}", move_out);
                         self.classes.insert(self.current_class.to_owned(), move_out);
-                        println!("reset i class");
+                        //println!("reset i class");
                         self.current_i_class = InterfaceClass::new();
                         self.current_class = String::new();
                     }
@@ -253,18 +254,18 @@ impl InterfaceBuilder {
                     Sm::ProtoBuf
                 }
                 (Sm::ParsingClass, Tk::Word(class_name)) => {
-                    self.current_class = dbg!(class_name.to_owned());
+                    self.current_class = class_name.to_owned();
                     Sm::ParsingClassFunctions
                 }
                 (Sm::ParsingClassFunctions, Tk::CurlyOpen) => Sm::ParsingFunctionName,
                 (Sm::ParsingFunctionName, Tk::Word(name)) => {
-                    self.current_function_name = dbg!(name.to_owned());
+                    self.current_function_name = name.to_owned();
 
                     Sm::ParsingFunctionArgs
                 }
                 (Sm::ParsingFunctionName, Tk::CurlyClose) => {
                     let move_out = self.current_i_class.clone();
-                    println!("MOVE OUT I CLASS = {:?}", move_out);
+                    //println!("MOVE OUT I CLASS = {:?}", move_out);
                     self.classes.insert(self.current_class.to_owned(), move_out);
                     Sm::State0
                 }
@@ -347,6 +348,33 @@ impl InterfaceBuilder {
 
 #[derive(Debug)]
 enum TokenizeError {}
+
+#[derive(Debug, Default, Clone, PartialEq)]
+struct Token2 {
+    token: Token,
+    dbg_info: TokenPos,
+}
+
+#[derive(Debug, Default, Clone)]
+struct Tokenizer {
+    current_line: usize,
+    current_row: usize,
+    wordbuffer: String,
+    stack: Vec<Token2>,
+}
+impl Tokenizer {
+    fn _tokenize2(&mut self, input: &str) -> Vec<Token2> {
+        for char in input.chars() {
+            self.current_row += 1;
+
+            match char {
+                '\n' => self.current_line += 1,
+                _default => {}
+            }
+        }
+        self.stack.to_owned()
+    }
+}
 
 fn tokenize(input: &str) -> Result<Vec<Token>, TokenizeError> {
     //let mut ct_line = 0;
