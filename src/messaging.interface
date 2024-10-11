@@ -3,12 +3,12 @@ package ffi.messaging;
 // Sample messages.
 
 class HelloWorld {
-    greet (FullName) -> (Greeting);
-    greet_in_2sec (FullName) async -> (Greeting);
+    greet (name: FullName) -> (Greeting);
+    greet_in_2sec (name: FullName) async -> (Greeting);
 }
 
 class Math {
-    add (i32, i32) -> (i64);
+    add (v1:i32, v2: i32) -> (i64);
 }
 
 message add {

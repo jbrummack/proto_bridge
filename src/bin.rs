@@ -1,6 +1,7 @@
 use std::{
     borrow::Borrow,
     collections::HashMap,
+    fmt::Display,
     hash::Hash,
     ops::{Deref, DerefMut},
     rc::Rc,
@@ -33,21 +34,44 @@ struct Class {
 #[derive(Debug)]
 struct Function {
     is_async: bool,
-    input: Vec<String>,
+    input: Vec<FunctionParam>,
     output: Vec<String>,
+}
+
+#[derive(Debug, Clone)]
+struct FunctionParam {
+    param_name: String,
+    param_type: String,
+}
+impl std::fmt::Display for FunctionParam {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}: {}", self.param_name, self.param_type)
+    }
 }
 use convert_case::{Case, Casing};
 impl Function {
     fn codegen_rs(&self, name: &str) -> () {
         let is_async = if self.is_async { "async " } else { "" };
+        let strfied_params: Vec<String> = self
+            .input
+            .clone()
+            .into_iter()
+            .map(|prm| format!("{prm}"))
+            .collect();
+        let strfied_params_export: Vec<String> = self
+            .input
+            .clone()
+            .into_iter()
+            .map(|prm| format!("{}: MessageFatPointer", prm.param_name))
+            .collect();
         println!(
             "{is_async}fn {name}({}) -> ({}) {{}}",
-            self.input.join(", "),
+            strfied_params.join(", "),
             self.output.join(", ")
         );
         println!(
             "pub extern \"C\" fn _internal_{name}({}) -> ({}) {{}}",
-            self.input.join(", "),
+            strfied_params_export.join(", "),
             self.output.join(", ")
         );
     }
@@ -154,6 +178,8 @@ enum StateMachine {
     ParsingFunctionName,
     ParsingFunctionArgs,
     ParsingFunctionArgsWord,
+    ParsingFunctionArgsName,
+    ParsingFunctionArgsType,
     ParsingAsync,
     ParsingFunctionResult,
     ParsingFunctionResultWord,
@@ -171,7 +197,11 @@ impl StateMachine {
         let mut state = StateMachine::new();
         let mut current_class: String = String::new();
         let mut current_function_name: String = String::new();
-        let mut current_function_args: Vec<String> = Vec::new();
+        let mut current_param: FunctionParam = FunctionParam {
+            param_name: String::new(),
+            param_type: String::new(),
+        };
+        let mut current_function_args: Vec<FunctionParam> = Vec::new();
         let mut current_function_results: Vec<String> = Vec::new();
         let mut protobuf_depth = 0;
         let mut is_async = false;
@@ -218,8 +248,19 @@ impl StateMachine {
 
                 (Sm::ParsingFunctionArgsWord, Tk::ParenClose) => Sm::ParsingAsync,
                 (Sm::ParsingFunctionArgsWord, Tk::Word(arg)) => {
-                    current_function_args.push(arg.to_owned());
-
+                    //current_function_args.push(arg.to_owned());
+                    current_param.param_name = arg.to_owned();
+                    Sm::ParsingFunctionArgsName
+                }
+                (Sm::ParsingFunctionArgsName, Tk::Colon) => {
+                    //current_function_args.push(arg.to_owned());
+                    //current_param.param_name = arg.to_owned();
+                    Sm::ParsingFunctionArgsType
+                }
+                (Sm::ParsingFunctionArgsType, Tk::Word(arg)) => {
+                    //current_function_args.push(arg.to_owned());
+                    current_param.param_type = arg.to_owned();
+                    current_function_args.push(current_param.clone());
                     Sm::ParsingFunctionArgsWord
                 }
                 (Sm::ParsingFunctionArgsWord, Tk::Comma) => Sm::ParsingFunctionArgsWord,
