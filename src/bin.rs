@@ -36,6 +36,22 @@ struct Function {
     input: Vec<String>,
     output: Vec<String>,
 }
+use convert_case::{Case, Casing};
+impl Function {
+    fn codegen_rs(&self, name: &str) -> () {
+        let is_async = if self.is_async { "async " } else { "" };
+        println!(
+            "{is_async}fn {name}({}) -> ({}) {{}}",
+            self.input.join(", "),
+            self.output.join(", ")
+        );
+        println!(
+            "pub extern \"C\" fn _internal_{name}({}) -> ({}) {{}}",
+            self.input.join(", "),
+            self.output.join(", ")
+        );
+    }
+}
 
 struct TokenPos {
     line_number: usize,
@@ -230,7 +246,9 @@ impl StateMachine {
                         input: current_function_args.clone(),
                         output: current_function_results.clone(),
                     };
-                    println!("{}::{} = {:?}", current_class, current_function_name, func);
+
+                    func.codegen_rs(&current_function_name);
+
                     is_async = false;
                     current_function_args = Vec::new();
                     current_function_results = Vec::new();
