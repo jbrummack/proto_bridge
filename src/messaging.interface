@@ -1,3 +1,7 @@
+syntax = "proto3";
+package ffi.messaging;
+// Sample messages.
+
 class HelloWorld {
     greet (FullName) -> (Greeting);
     greet_in_2sec (FullName) async -> (Greeting);
@@ -5,4 +9,9 @@ class HelloWorld {
 
 class Math {
     add (i32, i32) -> (i64);
+}
+
+message add {
+    int32 v1 = 1;
+    int32 v2 = 2;
 }
